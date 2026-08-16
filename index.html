@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7412418455195467"
+     crossorigin="anonymous"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>SURVIVE V8.3</title>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#020408;font-family:Arial,sans-serif}
+body{display:flex;justify-content:center;align-items:center}
+#game{position:relative;width:100%;height:100%;max-width:620px;overflow:hidden;background:#05070c}
+canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none}
+#ui{position:absolute;top:0;left:0;width:100%;padding:10px;z-index:10;pointer-events:none}
+.top{display:flex;justify-content:space-between;gap:5px}.box{background:rgba(5,8,14,.88);border:1px solid rgba(255,255,255,.13);border-radius:10px;padding:6px 8px;color:#fff;text-align:center;min-width:65px;font-size:9px}.value{font-size:15px;font-weight:800;margin-top:2px}#lives{color:#ff5363}
+#mapName{position:absolute;top:68px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.6);font-size:10px;letter-spacing:3px;white-space:nowrap}
+#bossBar{display:none;position:absolute;left:9%;right:9%;bottom:25px;height:12px;border-radius:20px;overflow:hidden;background:rgba(0,0,0,.7);border:1px solid rgba(255,255,255,.25);z-index:15}#bossFill{height:100%;width:100%;transition:width .1s}
+#bossName{display:none;position:absolute;bottom:43px;left:50%;transform:translateX(-50%);color:#fff;font-size:11px;font-weight:bold;letter-spacing:2px;z-index:16;white-space:nowrap}
+#warning{position:absolute;left:50%;top:45%;transform:translate(-50%,-50%);color:#fff;font-size:25px;font-weight:900;z-index:30;opacity:0;pointer-events:none;white-space:nowrap}
+.warning{animation:warning .9s ease}@keyframes warning{0%{opacity:0;transform:translate(-50%,-50%) scale(.6)}25%{opacity:1;transform:translate(-50%,-50%) scale(1.1)}100%{opacity:0;transform:translate(-50%,-50%) scale(1)}}
+#power{position:absolute;left:50%;bottom:55px;transform:translateX(-50%);background:rgba(5,8,14,.92);color:#fff;border-radius:20px;padding:8px 15px;font-size:12px;opacity:0;z-index:25;pointer-events:none}
+#musicStatus{position:absolute;right:10px;bottom:10px;z-index:30;background:rgba(5,8,14,.9);border:1px solid rgba(255,255,255,.18);border-radius:20px;padding:7px 11px;color:#fff;font-size:10px;pointer-events:auto;cursor:pointer}
+#overlay{position:absolute;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;background:rgba(2,3,7,.95);padding:18px;overflow:auto;touch-action:auto}.hidden{display:none!important}
+.panel{width:min(94%,460px);max-height:94vh;overflow-y:auto;background:rgba(10,14,23,.99);border:1px solid rgba(255,255,255,.14);border-radius:22px;padding:25px 20px;text-align:center;color:#fff;box-shadow:0 25px 90px #000}
+h1{margin:0;font-size:39px;letter-spacing:4px}.sub{color:#aab3c2;line-height:1.5;margin:12px 0 20px}
+button{appearance:none;-webkit-appearance:none;display:block;width:100%;border:0;border-radius:13px;padding:15px;margin-top:9px;background:#202735;color:#fff;font-size:14px;font-weight:bold;cursor:pointer;touch-action:manipulation}button:active{transform:scale(.97)}.primary{background:#fff;color:#05070b}.back{margin-top:15px;background:#151b27}
+.sectionTitle{font-size:12px;letter-spacing:3px;color:#7f899a;margin:20px 0 10px}.level{display:flex;align-items:center;gap:12px;text-align:left;width:100%;padding:13px;margin:8px 0;border-radius:14px;border:1px solid rgba(255,255,255,.1);background:#151b26;color:#fff;touch-action:manipulation;cursor:pointer}.level.locked{opacity:.42;cursor:not-allowed}.level.done{border-color:rgba(80,255,140,.4)}.levelNumber{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:#080c14;font-weight:bold;flex-shrink:0}.levelInfo{flex:1}.levelName{font-weight:bold;font-size:13px}.levelBoss{color:#778194;font-size:10px;margin-top:4px}.status{font-size:18px}
+.infoTitle{font-size:27px;letter-spacing:3px;margin-bottom:6px}.infoSubtitle{color:#707b8d;font-size:10px;margin-bottom:18px}.infoSection{text-align:left;margin-top:18px}.infoSectionTitle{font-size:11px;color:#7f899a;letter-spacing:3px;margin-bottom:9px;padding-left:3px}.infoCard{display:flex;gap:12px;align-items:center;background:#141a25;border:1px solid rgba(255,255,255,.08);border-radius:13px;padding:11px;margin:7px 0;text-align:left}.infoIcon{width:42px;height:42px;min-width:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;background:#080c14;font-size:20px}.infoName{font-size:13px;font-weight:bold;color:#fff}.infoText{font-size:10px;line-height:1.45;color:#8e98a8;margin-top:3px}.bossCard{border-left:3px solid #fff}
+.settingRow{background:#141a25;border:1px solid rgba(255,255,255,.08);border-radius:13px;padding:13px;margin:8px 0;text-align:left}.settingTop{display:flex;justify-content:space-between;align-items:center}.settingName{font-size:12px;font-weight:bold}.settingSmall{font-size:9px;color:#7e8999;margin-top:5px}.switch{width:54px;height:28px;padding:3px;margin:0;border-radius:20px;background:#303847}.switch.on{background:#fff}.switchKnob{width:22px;height:22px;border-radius:50%;background:#fff;transition:.2s}.switch.on .switchKnob{transform:translateX(26px);background:#080c14}.range{width:100%;margin-top:12px;accent-color:#fff}
+#resultTitle{font-size:30px;font-weight:bold}#resultRank{font-size:23px;font-weight:bold;margin:15px 0}#resultInfo{color:#8e98a8;font-size:12px;line-height:1.7}
+</style>
+</head>
+<body>
+<div id="game">
+<canvas id="canvas"></canvas>
+<div id="ui"><div class="top">
+<div class="box">TIME<div class="value" id="time">60.0</div></div>
+<div class="box">LIVES<div class="value" id="lives">♥ ♥ ♥</div></div>
+<div class="box">SCORE<div class="value" id="score">0</div></div>
+<div class="box">BEST<div class="value" id="best">0.0</div></div>
+</div><div id="mapName">NEON CITY</div></div>
+<div id="warning"></div><div id="power"></div><div id="bossName"></div>
+<div id="bossBar"><div id="bossFill"></div></div><div id="musicStatus">♫ MUSIC</div>
+
+<div id="overlay">
+<div class="panel" id="menu">
+<h1>SURVIVE</h1><div style="margin-top:6px;color:#7f899a;font-size:11px;letter-spacing:2px">by AliDai</div><div class="sub">Survive.<br>Defeat the Boss. Unlock new levels.</div>
+<button class="primary" id="playButton">PLAY</button><button id="levelsButton">🗺️ LEVELS</button><button id="infoButton">📖 INFO</button><button id="settingsButton">⚙️ SETTINGS</button>
+<div style="margin-top:18px;color:#626d7e;font-size:10px">SURVIVE V8.3 FINAL</div>
+</div>
+
+<div class="panel hidden" id="levels"><h1 style="font-size:27px">LEVELS</h1><div class="sectionTitle">PROGRESS</div><div id="levelList"></div><button class="back" id="levelsBack">BACK</button></div>
+
+<div class="panel hidden" id="info">
+<div class="infoTitle">📖 INFO</div><div class="infoSubtitle">Explore the world of SURVIVE</div>
+<div class="infoSection"><div class="infoSectionTitle">🧑 PLAYER</div>
+<div class="infoCard"><div class="infoIcon">❤️</div><div><div class="infoName">LIVES</div><div class="infoText">You start each level with 3 lives.</div></div></div>
+<div class="infoCard"><div class="infoIcon">👆</div><div><div class="infoName">MOVEMENT</div><div class="infoText">Drag your finger across the game area to move the character.</div></div></div>
+<div class="infoCard"><div class="infoIcon">🛡️</div><div><div class="infoName">SHIELD</div><div class="infoText">Blocks one attack.</div></div></div></div>
+<div class="infoSection"><div class="infoSectionTitle">👾 ENEMIES</div>
+<div class="infoCard"><div class="infoIcon">🔴</div><div><div class="infoName">CHASER</div><div class="infoText">Follows you directly.</div></div></div>
+<div class="infoCard"><div class="infoIcon">🟡</div><div><div class="infoName">FAST</div><div class="infoText">Very fast but small.</div></div></div>
+<div class="infoCard"><div class="infoIcon">🟣</div><div><div class="infoName">HUNTER</div><div class="infoText">Predicts your movement and approaches.</div></div></div>
+<div class="infoCard"><div class="infoIcon">🔵</div><div><div class="infoName">SPLITTER</div><div class="infoText">Large and durable.</div></div></div>
+<div class="infoCard"><div class="infoIcon">🟠</div><div><div class="infoName">BOMBER</div><div class="infoText">Explodes when it gets close.</div></div></div>
+<div class="infoCard"><div class="infoIcon">⚫</div><div><div class="infoName">SHADOW</div><div class="infoText">Its visibility constantly changes.</div></div></div></div>
+<div class="infoSection"><div class="infoSectionTitle">⚡ POWERS</div>
+<div class="infoCard"><div class="infoIcon">🛡️</div><div><div class="infoName">SHIELD</div><div class="infoText">Blocks one hit.</div></div></div>
+<div class="infoCard"><div class="infoIcon">⚡</div><div><div class="infoName">SPEED</div><div class="infoText">Increases movement speed.</div></div></div>
+<div class="infoCard"><div class="infoIcon">💥</div><div><div class="infoName">EMP</div><div class="infoText">Clears normal enemies.</div></div></div>
+<div class="infoCard"><div class="infoIcon">❄️</div><div><div class="infoName">FREEZE</div><div class="infoText">Slows enemies down.</div></div></div>
+<div class="infoCard"><div class="infoIcon">❤️</div><div><div class="infoName">EXTRA LIFE</div><div class="infoText">Gives you one life.</div></div></div></div>
+<div class="infoSection"><div class="infoSectionTitle">👹 BOSSES</div>
+<div class="infoCard bossCard"><div class="infoIcon">🤖</div><div><div class="infoName">CYBER TITAN</div><div class="infoText">NEON CITY boss.</div></div></div>
+<div class="infoCard bossCard"><div class="infoIcon">⚙️</div><div><div class="infoName">MACHINE X</div><div class="infoText">ABANDONED FACTORY boss.</div></div></div>
+<div class="infoCard bossCard"><div class="infoIcon">🌌</div><div><div class="infoName">VOID</div><div class="infoText">SPACE STATION boss.</div></div></div>
+<div class="infoCard bossCard"><div class="infoIcon">🔥</div><div><div class="infoName">INFERNO</div><div class="infoText">INFERNO boss.</div></div></div>
+<div class="infoCard bossCard"><div class="infoIcon">❄️</div><div><div class="infoName">FROST GIANT</div><div class="infoText">FROZEN BASE boss.</div></div></div>
+<div class="infoCard bossCard"><div class="infoIcon">🌲</div><div><div class="infoName">FOREST KING</div><div class="infoText">DARK FOREST boss.</div></div></div></div>
+<button class="back" id="infoBack">BACK</button>
+</div>
+
+<div class="panel hidden" id="settings"><h1 style="font-size:27px">⚙️ SETTINGS</h1>
+<div class="settingRow"><div class="settingTop"><div><div class="settingName">🎵 MUSIC</div><div class="settingSmall">Level-specific MP3 music</div></div><button class="switch on" id="musicToggle"><div class="switchKnob"></div></button></div></div>
+<div class="settingRow"><div class="settingName">🔊 VOLUME</div><div class="settingSmall">Background music volume</div><input class="range" id="volumeRange" type="range" min="0" max="1" step=".01" value=".45"></div>
+<button class="back" id="settingsBack">BACK</button></div>
+
+<div class="panel hidden" id="result"><div id="resultTitle">LEVEL COMPLETE</div><div id="resultRank"></div>
+<div class="sub">TIME<div id="finalTime" style="font-size:36px;font-weight:bold;margin:7px">0</div><div id="resultInfo"></div></div>
+<button class="primary" id="again">TEKRAR PLAY</button><button id="next">NEXT LEVEL</button><button class="back" id="resultMenu">MAIN MENU</button></div>
+</div></div>
+
+<script>
+"use strict";
+const canvas=document.getElementById("canvas"),ctx=canvas.getContext("2d"),game=document.getElementById("game");
+let W=0,H=0;
+function resize(){const r=game.getBoundingClientRect(),d=Math.min(devicePixelRatio||1,2);W=r.width;H=r.height;canvas.width=W*d;canvas.height=H*d;ctx.setTransform(d,0,0,d,0,0)}
+addEventListener("resize",resize);resize();
+
+const overlay=document.getElementById("overlay"),menu=document.getElementById("menu"),levels=document.getElementById("levels"),info=document.getElementById("info"),settings=document.getElementById("settings"),result=document.getElementById("result");
+const timeEl=document.getElementById("time"),livesEl=document.getElementById("lives"),scoreEl=document.getElementById("score"),bestEl=document.getElementById("best"),mapName=document.getElementById("mapName"),warning=document.getElementById("warning"),power=document.getElementById("power"),bossName=document.getElementById("bossName"),bossBar=document.getElementById("bossBar"),bossFill=document.getElementById("bossFill"),levelList=document.getElementById("levelList"),resultTitle=document.getElementById("resultTitle"),resultRank=document.getElementById("resultRank"),finalTime=document.getElementById("finalTime"),resultInfo=document.getElementById("resultInfo"),nextButton=document.getElementById("next"),musicToggle=document.getElementById("musicToggle"),volumeRange=document.getElementById("volumeRange"),musicStatus=document.getElementById("musicStatus");
+
+const LEVELS=[
+{name:"NEON CITY",boss:"CYBER TITAN",color:"#4da6ff",bg1:"#101b35",bg2:"#02050c",difficulty:1,music:"neon"},
+{name:"ABANDONED FACTORY",boss:"MACHINE X",color:"#ff9d45",bg1:"#271b12",bg2:"#070402",difficulty:1.25,music:"factory"},
+{name:"SPACE STATION",boss:"VOID",color:"#b86cff",bg1:"#1b1031",bg2:"#020106",difficulty:1.5,music:"space"},
+{name:"INFERNO",boss:"INFERNO",color:"#ff4435",bg1:"#32100b",bg2:"#080201",difficulty:1.8,music:"inferno"},
+{name:"FROZEN BASE",boss:"FROST GIANT",color:"#63eaff",bg1:"#10282f",bg2:"#02090c",difficulty:2.1,music:"frozen"},
+{name:"DARK FOREST",boss:"FOREST KING",color:"#63ff91",bg1:"#0c1c13",bg2:"#020603",difficulty:2.5,music:"forest"}
+];
+
+/* MP3 DOSYALARI: HTML dosyasının yanında "music" klasöründe */
+const MUSIC={
+neon:"./music/neon.mp3",
+factory:"./music/factory.mp3",
+space:"./music/space.mp3",
+inferno:"./music/inferno.mp3",
+frozen:"./music/frozen.mp3",
+forest:"./music/forest.mp3",
+boss:"./music/boss.mp3"
+};
+
+let unlocked=Math.max(1,Math.min(parseInt(localStorage.getItem("survive_v8_unlocked")||"1"),6));
+let completed=JSON.parse(localStorage.getItem("survive_v8_completed")||"[]");
+let bests=JSON.parse(localStorage.getItem("survive_v8_bests")||"{}");
+function saveProgress(){localStorage.setItem("survive_v8_unlocked",unlocked);localStorage.setItem("survive_v8_completed",JSON.stringify(completed));localStorage.setItem("survive_v8_bests",JSON.stringify(bests))}
+
+let audio=null,musicEnabled=localStorage.getItem("survive_v8_music")!=="off",musicVolume=parseFloat(localStorage.getItem("survive_v8_volume")||".45"),currentAudioKey="";
+volumeRange.value=musicVolume;
+
+function getAudio(key){
+    if(!audio){
+        audio=new Audio();
+        audio.loop=true;
+        audio.preload="auto";
+        audio.setAttribute("playsinline","");
+        audio.addEventListener("error",()=>{
+            musicStatus.textContent="♫ MUSIC ERROR";
+        });
+    }
+    if(currentAudioKey!==key){
+        audio.pause();
+        audio.currentTime=0;
+        audio.src=MUSIC[key];
+        audio.load();
+        currentAudioKey=key;
+    }
+    audio.volume=0;
+    return audio;
+}
+function fadeAudio(target,duration=650,callback){
+    if(!audio){if(callback)callback();return}
+    const start=audio.volume,startTime=performance.now();
+    function step(now){
+        const p=Math.min(1,(now-startTime)/duration);
+        audio.volume=Math.max(0,Math.min(1,start+(target-start)*p));
+        if(p<1)requestAnimationFrame(step);else if(callback)callback();
+    }
+    requestAnimationFrame(step);
+}
+function playMusic(key){
+    if(!musicEnabled)return;
+    const a=getAudio(key);
+    musicStatus.textContent=key==="boss"?"♫ BOSS":"♫ "+LEVELS[currentLevel].name;
+    a.volume=0;
+    const p=a.play();
+    if(p&&p.then){
+        p.then(()=>fadeAudio(musicVolume,700))
+         .catch(()=>{musicStatus.textContent="♫ TAP TO PLAY";});
+    }else{
+        fadeAudio(musicVolume,700);
+    }
+}
+function switchMusic(key){
+    if(!musicEnabled)return;
+    if(!audio){playMusic(key);return}
+    if(currentAudioKey===key&&!audio.paused)return;
+    fadeAudio(0,1000,()=>{playMusic(key)});
+}
+function stopMusic(){
+    if(!audio)return;
+    fadeAudio(0,1000,()=>{audio.pause();audio.currentTime=0;currentAudioKey=""});
+    musicStatus.textContent="♫ MUSIC";
+}
+function setMusicEnabled(v){
+    musicEnabled=v;localStorage.setItem("survive_v8_music",v?"on":"off");musicToggle.classList.toggle("on",v);
+    if(v&&running)playMusic(bossActive?"boss":LEVELS[currentLevel].music);else if(!v)stopMusic();
+}
+function setVolume(v){musicVolume=parseFloat(v);localStorage.setItem("survive_v8_volume",musicVolume);if(audio&&!audio.paused)audio.volume=musicVolume}
+
+let currentLevel=0,running=false,bossActive=false,bossDefeated=false,startTime=0,elapsed=0,lastTime=0,lives=3,score=0,enemies=[],particles=[],powers=[],spawnTimer=0,powerTimer=0,boss=null;
+const player={x:0,y:0,targetX:0,targetY:0,radius:14,invincible:0,shield:0,speed:0};
+function resetPlayer(){player.x=W/2;player.y=H/2;player.targetX=W/2;player.targetY=H/2;player.invincible=0;player.shield=0;player.speed=0}
+let dragging=false,pointerId=null;
+function pointerPosition(e){const r=canvas.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top}}
+function movePlayerPointer(e){if(!running||!dragging)return;if(pointerId!==null&&e.pointerId!==pointerId)return;const p=pointerPosition(e);player.targetX=Math.max(18,Math.min(W-18,p.x));player.targetY=Math.max(90,Math.min(H-18,p.y))}
+canvas.addEventListener("pointerdown",e=>{if(!running)return;dragging=true;pointerId=e.pointerId;movePlayerPointer(e);try{canvas.setPointerCapture(e.pointerId)}catch(_){}e.preventDefault()},{passive:false});
+canvas.addEventListener("pointermove",e=>{if(running)movePlayerPointer(e);e.preventDefault()},{passive:false});
+canvas.addEventListener("pointerup",()=>{dragging=false;pointerId=null});
+canvas.addEventListener("pointercancel",()=>{dragging=false;pointerId=null});
+
+function distance(a,b){return Math.hypot(a.x-b.x,a.y-b.y)}
+function burst(x,y,count,color){for(let i=0;i<count;i++){const a=Math.random()*Math.PI*2,s=40+Math.random()*180,life=.3+Math.random()*.7;particles.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life,max:life,size:2+Math.random()*4,color})}}
+function showWarning(text){warning.textContent=text;warning.classList.remove("warning");void warning.offsetWidth;warning.classList.add("warning")}
+function showPower(text){power.textContent=text;power.style.opacity="1";clearTimeout(showPower.timer);showPower.timer=setTimeout(()=>power.style.opacity="0",1000)}
+function updateLives(){let s="";for(let i=0;i<3;i++)s+=i<lives?"♥ ":"♡ ";livesEl.textContent=s.trim()}
+
+function spawnEnemy(){
+const side=Math.floor(Math.random()*4);let x,y;
+if(side===0){x=Math.random()*W;y=-40}else if(side===1){x=W+40;y=Math.random()*H}else if(side===2){x=Math.random()*W;y=H+40}else{x=-40;y=Math.random()*H}
+const d=LEVELS[currentLevel].difficulty,r=Math.random();let type="chaser",radius=12,speed=70+Math.random()*35+d*10;
+if(currentLevel===0)type=r<.7?"chaser":"fast";
+else if(currentLevel===1)type=r<.45?"chaser":r<.7?"fast":"hunter";
+else if(currentLevel===2)type=r<.3?"chaser":r<.5?"fast":r<.75?"hunter":"splitter";
+else type=r<.2?"fast":r<.4?"hunter":r<.62?"splitter":r<.82?"bomber":"shadow";
+if(type==="fast"){radius=9;speed=125+Math.random()*45+d*14}
+if(type==="hunter"){radius=13;speed=65+Math.random()*25+d*8}
+if(type==="splitter"){radius=16;speed=60+Math.random()*25+d*6}
+if(type==="bomber"){radius=15;speed=55+Math.random()*20+d*5}
+if(type==="shadow"){radius=11;speed=105+Math.random()*35+d*12}
+enemies.push({x,y,radius,speed,type,angle:Math.atan2(player.y-y,player.x-x),fuse:3.5,alpha:1,frozen:0})
+}
+function spawnPower(){const types=["shield","speed","emp","freeze","life"],type=types[Math.floor(Math.random()*types.length)];powers.push({x:35+Math.random()*(W-70),y:110+Math.random()*(H-160),radius:14,type,life:8,pulse:0})}
+function collectPower(p){
+if(p.type==="shield"){player.shield=8;showPower("🛡️ SHIELD")}
+if(p.type==="speed"){player.speed=7;showPower("⚡ SPEED")}
+if(p.type==="emp"){enemies=[];burst(player.x,player.y,80,"#b86cff");showPower("💥 EMP")}
+if(p.type==="freeze"){enemies.forEach(e=>e.frozen=4);showPower("❄️ FREEZE")}
+if(p.type==="life"){if(lives<3){lives++;updateLives();showPower("❤️ EXTRA LIFE")}else showPower("❤️ MAX LIFE")}
+}
+function hitPlayer(){if(player.invincible>0)return;if(player.shield>0){player.shield=0;player.invincible=.8;burst(player.x,player.y,30,"#4da6ff");return}lives--;player.invincible=1.2;burst(player.x,player.y,30,"#ff4055");updateLives();if(lives<=0)endGame()}
+
+/* MUSIC AKIŞI:
+   Bölüm başlangıcı -> bölüm müziği
+   Boss -> ortak boss.mp3 (1 sn fade)
+   Boss yenilgisi -> müzik 1 sn fade-out ile durur
+   Sonraki bölüm -> yeni bölüm müziği 1 sn fade-in ile başlar
+   Tekrar oynama -> aynı bölüm müziği baştan başlar
+*/
+function startBoss(){
+bossActive=true;const l=LEVELS[currentLevel];boss={x:W/2,y:125,radius:45,hp:100,maxHp:100,angle:0,shot:1};
+bossName.textContent=l.boss;bossName.style.display="block";bossBar.style.display="block";bossFill.style.width="100%";bossFill.style.background=l.color;showWarning("🔥 "+l.boss);switchMusic("boss")
+}
+function updateBoss(dt){
+if(!boss)return;
+boss.angle+=dt;boss.x+=(W/2+Math.cos(boss.angle*.7)*W*.34-boss.x)*dt*1.5;boss.y+=(125+Math.sin(boss.angle)*45-boss.y)*dt*1.5;boss.shot-=dt;
+if(boss.shot<=0){boss.shot=.65;const a=Math.atan2(player.y-boss.y,player.x-boss.x);for(let k=-1;k<=1;k++)enemies.push({x:boss.x,y:boss.y,radius:8,speed:190,type:"bossShot",angle:a+k*.2,fuse:0,alpha:1,frozen:0})}
+boss.hp-=dt*4.5;bossFill.style.width=Math.max(0,boss.hp/boss.maxHp*100)+"%";
+if(distance(player,boss)<player.radius+boss.radius)hitPlayer();
+if(boss.hp<=0){boss=null;bossActive=false;bossDefeated=true;enemies=[];bossBar.style.display="none";bossName.style.display="none";burst(W/2,125,120,LEVELS[currentLevel].color);showWarning("🏆 BOSS DEFEATED");stopMusic();completeLevel()}
+}
+function completeLevel(){
+running=false;dragging=false;pointerId=null;stopMusic();
+if(!completed.includes(currentLevel))completed.push(currentLevel);
+if(currentLevel+1<LEVELS.length&&unlocked<currentLevel+2)unlocked=currentLevel+2;
+const old=parseFloat(bests[currentLevel]||0);if(!old||elapsed<old)bests[currentLevel]=elapsed;saveProgress();
+resultTitle.textContent=currentLevel===LEVELS.length-1?"🏆 LEGEND":"LEVEL COMPLETE";resultRank.textContent=currentLevel===LEVELS.length-1?"🔥 TÜM LEVELS TAMAMLANDI":"✓ NEXT LEVEL AÇILDI";finalTime.textContent=elapsed.toFixed(1)+" s";
+resultInfo.innerHTML="Level: <b>"+LEVELS[currentLevel].name+"</b><br>Boss: <b>"+LEVELS[currentLevel].boss+"</b><br><br>"+(currentLevel<LEVELS.length-1?"🔓 Next level unlocked!":"👑 You completed the entire game!");
+nextButton.classList.toggle("hidden",currentLevel>=LEVELS.length-1);renderLevels();showScreen(result)
+}
+function endGame(){if(!running)return;running=false;dragging=false;pointerId=null;stopMusic();resultTitle.textContent="GAME OVER";resultRank.textContent="💀 YOU LOST";finalTime.textContent=elapsed.toFixed(1)+" s";resultInfo.innerHTML="Level: <b>"+LEVELS[currentLevel].name+"</b><br><br>Try again to defeat the Boss.";nextButton.classList.add("hidden");showScreen(result)}
+
+function hideScreens(){menu.classList.add("hidden");levels.classList.add("hidden");info.classList.add("hidden");settings.classList.add("hidden");result.classList.add("hidden")}
+function showScreen(s){hideScreens();overlay.classList.remove("hidden");s.classList.remove("hidden")}
+
+function startGame(){
+try{
+if(audio&&audio.paused&&musicEnabled)audio.play().catch(()=>{});
+}catch(_){}
+running=true;dragging=false;pointerId=null;bossActive=false;bossDefeated=false;boss=null;elapsed=0;lives=3;score=0;enemies=[];particles=[];powers=[];spawnTimer=.5;powerTimer=3+Math.random()*3;resetPlayer();updateLives();timeEl.textContent="60.0";scoreEl.textContent="0";bestEl.textContent=Number(bests[currentLevel]||0).toFixed(1);mapName.textContent=LEVELS[currentLevel].name;bossBar.style.display="none";bossName.style.display="none";hideScreens();overlay.classList.add("hidden");startTime=performance.now();lastTime=startTime;if(musicEnabled)playMusic(LEVELS[currentLevel].music)
+}
+
+function update(dt){
+elapsed=(performance.now()-startTime)/1000;const level=LEVELS[currentLevel];
+if(!bossActive&&!bossDefeated&&elapsed>=60)startBoss();
+timeEl.textContent=(bossActive?Math.max(0,70-elapsed):Math.max(0,60-elapsed)).toFixed(1);score=Math.floor(elapsed*10);scoreEl.textContent=score;
+let follow=10;if(player.speed>0){player.speed-=dt;follow=17}player.x+=(player.targetX-player.x)*Math.min(1,dt*follow);player.y+=(player.targetY-player.y)*Math.min(1,dt*follow);if(player.invincible>0)player.invincible-=dt;if(player.shield>0)player.shield-=dt;
+powerTimer-=dt;if(powerTimer<=0&&powers.length<2){powerTimer=5+Math.random()*4;spawnPower()}
+for(let i=powers.length-1;i>=0;i--){const p=powers[i];p.life-=dt;p.pulse+=dt*5;if(distance(player,p)<player.radius+p.radius){collectPower(p);powers.splice(i,1)}else if(p.life<=0)powers.splice(i,1)}
+let spawnRate=Math.max(.12,.7-level.difficulty*.09-elapsed*.002);if(bossActive)spawnRate=.2;spawnTimer-=dt;if(spawnTimer<=0){spawnEnemy();spawnTimer=spawnRate;if(elapsed>25&&Math.random()<.2+level.difficulty*.04)spawnEnemy()}
+for(let i=enemies.length-1;i>=0;i--){const e=enemies[i];if(e.frozen>0)e.frozen-=dt;const speed=e.frozen>0?e.speed*.3:e.speed;let tx=player.x,ty=player.y;if(e.type==="hunter"){tx=player.targetX;ty=player.targetY}const a=Math.atan2(ty-e.y,tx-e.x);e.angle+=Math.atan2(Math.sin(a-e.angle),Math.cos(a-e.angle))*Math.min(1,dt*(e.type==="hunter"?2.4:1.3));e.x+=Math.cos(e.angle)*speed*dt;e.y+=Math.sin(e.angle)*speed*dt;if(e.type==="shadow")e.alpha=.35+Math.abs(Math.sin(performance.now()/170))*.65;
+if(e.type==="bomber"){e.fuse-=dt;if(e.fuse<=0||distance(player,e)<72){if(distance(player,e)<105)hitPlayer();burst(e.x,e.y,35,"#ff7a3d");enemies.splice(i,1);continue}}
+if(distance(player,e)<player.radius+e.radius){hitPlayer();enemies.splice(i,1);continue}
+if(e.x<-200||e.x>W+200||e.y<-200||e.y>H+200)enemies.splice(i,1)}
+if(bossActive)updateBoss(dt);
+for(let i=particles.length-1;i>=0;i--){const p=particles[i];p.x+=p.vx*dt;p.y+=p.vy*dt;p.vx*=.97;p.vy*=.97;p.life-=dt;if(p.life<=0)particles.splice(i,1)}
+}
+
+function draw(){
+const l=LEVELS[currentLevel],bg=ctx.createLinearGradient(0,0,0,H);bg.addColorStop(0,l.bg1);bg.addColorStop(1,l.bg2);ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
+ctx.strokeStyle="rgba(255,255,255,.035)";ctx.lineWidth=1;for(let x=0;x<W;x+=45){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke()}for(let y=0;y<H;y+=45){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke()}
+ctx.fillStyle=l.color+"10";if(currentLevel===0)for(let i=0;i<7;i++)ctx.fillRect(i*105,H-75,60,75);if(currentLevel===1)ctx.fillRect(0,H*.72,W,7);if(currentLevel===2){ctx.fillStyle="rgba(255,255,255,.4)";for(let i=0;i<45;i++)ctx.fillRect((i*83)%W,(i*137)%H,1.5,1.5)}if(currentLevel===3){ctx.fillStyle="rgba(255,60,20,.09)";ctx.fillRect(0,H*.82,W,H*.18)}
+for(const p of powers){let c=p.type==="shield"?"#55aaff":p.type==="speed"?"#ffe35a":p.type==="emp"?"#b86cff":p.type==="freeze"?"#63eaff":"#ff5363";ctx.save();ctx.strokeStyle=c;ctx.shadowColor=c;ctx.shadowBlur=20;ctx.lineWidth=3;ctx.beginPath();ctx.arc(p.x,p.y,p.radius+Math.sin(p.pulse)*3,0,Math.PI*2);ctx.stroke();ctx.font="16px Arial";ctx.textAlign="center";ctx.textBaseline="middle";ctx.fillText(p.type==="shield"?"🛡️":p.type==="speed"?"⚡":p.type==="emp"?"💥":p.type==="freeze"?"❄️":"❤️",p.x,p.y);ctx.restore()}
+for(const p of particles){ctx.globalAlpha=Math.max(0,p.life/p.max);ctx.fillStyle=p.color;ctx.beginPath();ctx.arc(p.x,p.y,p.size,0,Math.PI*2);ctx.fill()}ctx.globalAlpha=1;
+for(const e of enemies){let c=e.type==="fast"?"#ffe052":e.type==="hunter"?"#b86cff":e.type==="splitter"?"#50e6ff":e.type==="bomber"?"#ff7b3d":e.type==="shadow"?"#151515":e.type==="bossShot"?"#ff3152":"#ff4055";ctx.save();ctx.globalAlpha=e.alpha??1;ctx.fillStyle=c;ctx.shadowColor=c;ctx.shadowBlur=18;ctx.beginPath();ctx.arc(e.x,e.y,e.radius,0,Math.PI*2);ctx.fill();if(e.type==="bomber"){ctx.strokeStyle="#fff";ctx.lineWidth=2;ctx.beginPath();ctx.arc(e.x,e.y,e.radius+5,0,Math.PI*2);ctx.stroke()}ctx.restore()}
+if(boss){const c=l.color;ctx.save();ctx.fillStyle=c;ctx.shadowColor=c;ctx.shadowBlur=40;ctx.beginPath();ctx.arc(boss.x,boss.y,boss.radius+Math.sin(performance.now()/100)*3,0,Math.PI*2);ctx.fill();ctx.fillStyle="#08050b";ctx.beginPath();ctx.arc(boss.x,boss.y,18,0,Math.PI*2);ctx.fill();ctx.restore()}
+if(player.invincible<=0||Math.floor(player.invincible*10)%2){ctx.save();ctx.fillStyle="#fff";ctx.shadowColor="#64aaff";ctx.shadowBlur=25;ctx.beginPath();ctx.arc(player.x,player.y,player.radius,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;ctx.fillStyle="#5ca4ff";ctx.beginPath();ctx.arc(player.x,player.y,6,0,Math.PI*2);ctx.fill();if(player.shield>0){ctx.strokeStyle="#55aaff";ctx.lineWidth=3;ctx.shadowColor="#55aaff";ctx.shadowBlur=20;ctx.beginPath();ctx.arc(player.x,player.y,player.radius+9+Math.sin(performance.now()/100)*2,0,Math.PI*2);ctx.stroke()}ctx.restore()}
+}
+function loop(now){const dt=Math.min(.033,(now-lastTime)/1000||0);lastTime=now;if(running)update(dt);draw();requestAnimationFrame(loop)}requestAnimationFrame(loop);
+
+document.getElementById("playButton").onclick=()=>{
+    currentLevel=Math.min(unlocked-1,LEVELS.length-1);
+    if(musicEnabled){
+        const key=LEVELS[currentLevel].music;
+        const a=getAudio(key);
+        a.muted=true;
+        a.volume=0;
+        const p=a.play();
+        if(p&&p.then){
+            p.then(()=>{
+                a.pause();
+                a.currentTime=0;
+                a.muted=false;
+                playMusic(key);
+            }).catch(()=>{
+                a.muted=false;
+                playMusic(key);
+            });
+        }else{
+            a.muted=false;
+            playMusic(key);
+        }
+    }
+    startGame();
+};
+document.getElementById("levelsButton").onclick=()=>{renderLevels();showScreen(levels)};
+document.getElementById("infoButton").onclick=()=>showScreen(info);
+document.getElementById("settingsButton").onclick=()=>showScreen(settings);
+document.getElementById("levelsBack").onclick=()=>showScreen(menu);
+document.getElementById("infoBack").onclick=()=>showScreen(menu);
+document.getElementById("settingsBack").onclick=()=>showScreen(menu);
+musicToggle.onclick=e=>{e.stopPropagation();setMusicEnabled(!musicEnabled)};
+volumeRange.oninput=e=>{e.stopPropagation();setVolume(e.target.value)};
+musicStatus.onclick=e=>{
+    e.stopPropagation();
+    if(musicEnabled) playMusic(bossActive?"boss":LEVELS[currentLevel].music);
+};
+document.getElementById("again").onclick=()=>startGame();
+document.getElementById("next").onclick=()=>{if(currentLevel<LEVELS.length-1){currentLevel++;startGame()}};
+document.getElementById("resultMenu").onclick=()=>{stopMusic();showScreen(menu)};
+
+function renderLevels(){
+levelList.innerHTML="";
+LEVELS.forEach((l,i)=>{const ok=i<unlocked,done=completed.includes(i),div=document.createElement("div");div.className="level "+(ok?"":"locked ")+(done?"done":"");div.innerHTML=`<div class="levelNumber">${i+1}</div><div class="levelInfo"><div class="levelName">${l.name}</div><div class="levelBoss">BOSS: ${l.boss}</div></div><div class="status">${done?"✓":ok?"▶":"🔒"}</div>`;if(ok)div.onclick=()=>{currentLevel=i;startGame()};levelList.appendChild(div)})
+}
+musicToggle.classList.toggle("on",musicEnabled);mapName.textContent=LEVELS[0].name;renderLevels();resetPlayer();draw();
+</script>
+</body>
+</html>
